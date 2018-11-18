@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>后台管理系统</title>
+<meta name="author" content="DeathGhost" />
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="shortcut icon" href="images/icon/favicon.ico"/>
+<style>
+	#table tbody tr:hover{
+		background: white;
+	}
+</style>
+</head>
+<body>
+<!--header-->
+<header>
+ <h1><img src="images/admin_logo.png"/></h1>
+ <ul class="rt_nav">
+  <li><a href="http://www.mycodes.net" target="_blank" class="website_icon">站点首页</a></li>
+  <li><a href="#" class="clear_icon">清除缓存</a></li>
+  <li><a href="#" class="admin_icon">admin</a></li>
+  <li><a href="#" class="set_icon">账号设置</a></li>
+  <li><a href="login.html" class="quit_icon">安全退出</a></li>
+ </ul>
+</header>
+<!--aside nav-->
+<!--aside nav-->
+<aside class="lt_aside_nav content mCustomScrollbar">
+ <h2><a href="index.html">首页</a></h2>
+ <ul>
+  <li>
+   <dl>
+    <dt>商品信息</dt>
+    <!--当前链接则添加class:active-->
+    <dd><a href="product_list.html" class="active">商品列表</a></dd>
+    <dd><a href="product_detail.html">商品详情</a></dd>
+    <dd><a href="product_editor.html">商品修改</a></dd>
+   </dl>
+  </li>
+  <li>
+   <dl>
+    <dt>订单信息</dt>
+    <dd><a href="order_list.html">订单列表</a></dd>
+    <dd><a href="order_detail.html">订单详情</a></dd>
+   </dl>
+  </li>
+  <li>
+   <dl>
+    <dt>会员管理</dt>
+    <dd><a href="user_list.html">会员列表</a></dd>
+    <dd><a href="user_detail.html">添加会员（详情）</a></dd>
+    <dd><a href="user_rank.html">会员等级</a></dd>
+    <dd><a href="adjust_funding.html">会员资金管理</a></dd>
+   </dl>
+  </li>
+  <li>
+   <dl>
+    <dt>基础设置</dt>
+    <dd><a href="setting.html">站点基础设置</a></dd>
+   </dl>
+  </li>
+  <li>
+   <dl>
+    <dt>配送与支付设置</dt>
+    <dd><a href="express_list.html">配送方式</a></dd>
+    <dd><a href="pay_list.html">支付方式</a></dd>
+   </dl>
+  </li>
+  <li>
+   <dl>
+    <dt>在线统计</dt>
+    <dd><a href="discharge_statistic.html">流量统计</a></dd>
+    <dd><a href="sales_volume.html">销售额统计</a></dd>
+   </dl>
+  </li>
+  <li>
+   <p class="btm_infor">© DeathGhost.cn 版权所有</p>
+  </li>
+ </ul>
+</aside>
+
+<section class="rt_wrap content mCustomScrollbar">
+ <div class="rt_content">
+      <div class="page_title">
+       <h2 class="fl">商品列表</h2>
+       <a href="product_detail.html" class="fr top_rt_btn add_icon">添加商品</a>
+      </div>
+      <section class="mtb">
+       <select class="select" onchange="get_ByType()">
+	        <option>HUAWEI 手机系列</option>
+	        <option>HUAWEI Mate系列</option>
+	        <option>HUAWEI P系列</option>
+	        <option>HUAWEI nova系列</option>
+	        <option>HUAWEI 麦芒系列</option>
+	        <option>华为畅享系列</option>
+       </select>
+       <input type="text" class="textbox textbox_225" placeholder="输入手机名称关键字" id="key"/>
+       <input type="button" value="查询" class="group_btn" id="keyword_btn" onclick="getKeyword()"/>
+      </section>
+      <table class="table" id="table">
+      	<thead>
+	       <tr>
+	        <th>缩略图</th>
+	        <th>手机名称</th>
+	        <th>货号</th>
+	        <th>单价</th>
+	        <th>单位</th>
+	        <th>手机系列</th>
+	        <th>热销</th>
+	        <th>库存</th>
+	        <th>操作</th>
+	       </tr>
+       </thead>
+       
+       <tbody class="tbody_list">
+	       <!--<tr id="phone_infs">
+	        <td class="center"><img src="images/phone/nova3.jpg" width="90" height="50"/></td>
+	        <td>HUAWEI nova 3</td>
+	        <td class="center">A181101</td>
+	        <td class="center"><strong class="rmb_icon">2999.00</strong></td>
+	        <td class="center">部</td>
+	        <td class="center"><a title="系列" class="">HUAWEI nova系列</a></td>
+	        <td class="center"><a title="是" class="link_icon">&#89;</a></td>
+	        <td class="center">100</td>
+	        <td class="center">
+	         <a href="product_detail.html" title="编辑" class="link_icon">&#101;</a>
+	         <a href="#" title="删除" class="link_icon">&#100;</a>
+	        </td>
+	       </tr>-->
+	       
+       </tbody>
+      </table>
+      
+      <!--分页-->
+      <aside class="paging">
+	       <a onclick="goPage('first')">第一页</a>
+	       <a onclick="goPage('prev')">上一页</a>
+	       <!--1/4 表示的是 当前页/总页 -->
+	       <span id="gty">1/4</span>
+	       <input type="number" id="gonum" value="" />
+	       <a onclick="goPage('go')">跳转</a>
+	       <a onclick="goPage('next')">下一页</a>
+	       <a onclick="goPage('last')">最后一页</a>
+      </aside>
+ </div>
+</section>
+</body>
+</html>
+<!--[if lt IE 9]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="js/commonjs.js"></script>
+<script>
+	(function($){
+		$(window).load(function(){
+			
+			$("a[rel='load-content']").click(function(e){
+				e.preventDefault();
+				var url=$(this).attr("href");
+				$.get(url,function(data){
+					$(".content .mCSB_container").append(data); //load new content inside .mCSB_container
+					//scroll-to appended content 
+					$(".content").mCustomScrollbar("scrollTo","h2:last");
+				});
+			});
+			
+			$(".content").delegate("a[href='top']","click",function(e){
+				e.preventDefault();
+				$(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
+			});
+			
+		});
+	})(jQuery);
+	
+	
+	//自己的代码---------------------
+	
+	//渲染商品信息
+	var rootpath='http://127.0.0.1:8000/shop-admin/';
+	var rootapi='http://127.0.0.1:8000/';
+	
+	var allnum=0;//总数据
+	var pagesize=4;//每页多少条数据
+	var allpage=0;//总页数
+	var nowpage=1;//当前页
+	
+	//点击跳转跳转到对应的页面
+	function goPage(pagetype){
+		switch(pagetype){
+			case 'first':
+			nowpage=1
+			break;
+			
+			case 'prev':
+			nowpage=nowpage>1 ? nowpage-1 : 1;
+			break;
+			
+			case 'go':
+			nowpage=$('#gonum').val();
+			if (nowpage>=allpage) {
+				nowpage=allpage;
+				alert("没有了");
+			}
+			break;
+			
+			case 'next':
+			nowpage=nowpage<allpage ? nowpage+1 : allpage;
+			break;
+			
+			case 'last':
+			nowpage=allpage
+			if (nowpage==allpage) {
+				alert('没有更多数据')
+				return false;
+			}
+			break;
+		}
+		
+		getPhonelist(nowpage,phone_type,phone_name);
+	}
+	
+	//console.log(nowpage)
+	//获取商品信息的封装函数-----
+	getPhonelist(nowpage,phone_type,phone_name);
+	function getPhonelist(page,phone_type,phone_name){
+		$.post(rootapi+'api/phones/phonelist',{target:page,pagesize:pagesize,phone_type:phone_type,keyword:phone_name},function(res){
+			//console.log(res)
+			if (res.err==0) {//表示数据请求成功
+				loadingPhone(res.data.phonelist);
+				allnum=res.data.allnum;
+				allpage=Math.ceil(allnum/pagesize);
+				$('#gty').html(`${page}/${allpage}`);
+			}else{//请求失败
+				alert(res.msg)
+			}
+		})
+	}
+	
+	
+	function loadingPhone(data){
+		var Str='';
+		for (var i=0; i<data.length; i++) {
+			var tr=`
+				<tr class="phone_infs">
+			        <td class="center"><img src="${rootpath}${data[i].img}" width="80" height="50"/></td>
+			        <td id="phone_name">${data[i].phone_name}</td>
+			        <td class="center">A1811<span id="phone_id">${i}</span></td>
+			        <td class="center"><strong class="rmb_icon" id="phone_price">${data[i].phone_price}</strong></td>
+			        <td class="center">部</td>
+			        <td class="center"><a title="系列" id="phone_type">${data[i].phone_type}</a></td>
+			        <td class="center"><a title="是" class="link_icon">&#89;</a></td>
+			        <td class="center" id="phone_inventory">${data[i].phone_inventory}</td>
+			        <td class="center">
+				        <a href="product_editor.html" title="编辑" class="link_icon editor_list" onClick="edi_Phone('编辑','product_editor.html','${data[i]._id}')">&#101;</a>
+				        <a href="#" title="删除" class="link_icon del_list" onClick="del_phone(this,'${data[i]._id}')">&#100;</a>
+			        </td>
+		        </tr>
+			`;
+			Str+=tr
+		}
+		
+		$('tbody').html(Str)
+	}
+	
+	
+	//删除商品--------------
+	function del_phone(obj,id){
+		//console.log(id)
+		if (confirm('确认要删除吗？')) {
+			$.post(rootapi+'api/phones/deletephone',{id:id},function(res){
+				if (res.err==0) {
+					$(obj).parents("tr").remove();
+				}else{
+					alert('删除失败！')
+				}
+			})
+		}else{
+			return false;
+		}
+		
+	}
+	
+	var phone_type='';
+	//分类查询手机信息-----------
+	function get_ByType(){
+		//console.log($('.select').val());
+		phone_type = $('.select').val();
+		getPhonelist(nowpage,phone_type,phone_name)
+
+	}
+	
+	var phone_name='';
+	//根据关键字模糊查询手机信息并显示-------------
+	function seach(){
+		//console.log($('#key').val())
+		phone_name=$('#key').val();
+		getPhonelist(nowpage,phone_type,phone_name)
+
+	}
+	
+	//点击查询
+	function getKeyword(){
+		seach()
+	}
+	
+	//回车查询
+	$(window).keydown(function(ev){
+		//console.log(ev.keyCode);//获取键值   键值13是回车键
+		if(ev.keyCode==13){
+			seach()
+		}
+	});
+	
+	
+	
+	
+	//*****点击修改商品信息******
+	function edi_Phone(title,url,id){
+		//先存下要修改的商品id  用到localstorage
+		var storage=window.localStorage;
+		storage.setItem('editor_id',id);//在Application下的Local Storage查看是否存储成功
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+</script>

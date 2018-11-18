@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<script src="./js/jquery.min.js"></script>
+	</head>
+
+	<body>
+		<form enctype="multipart/form-data" method="post">
+			<input type="file" name='image' id="imagelist">
+
+		</form>
+		<button onclick="Req_ajax()"> 上传</button><br />
+		<img src="" >
+		<script>
+			var OL_Action_Root = "http://127.0.0.1:8000";
+
+			function Req_ajax() {
+				// console.log(111)
+				console.log($("#imagelist")[0].files)
+				var formData = new FormData()//创建FormData对象
+				console.log(formData)
+				// formData.append('name','ni');
+				// console.log(formData.get('name'))//通过get()获取formData的值
+				
+				formData.append("test", $("#imagelist")[0].files[0])
+				console.log(formData.get('test'))
+				$.ajax({
+					url: OL_Action_Root + '/api/upload/img',///api/upload/img是path
+					type: 'POST',
+					data: formData,
+					cache: false,
+					contentType: false,
+					processData: false,
+					success: function(data) {
+						// console.log(data);
+						if(data.err==0){
+							//上传成功
+							$('img').attr('src','http://127.0.0.1:8000/'+data.path);
+						}
+						
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						document.getElementById("status").innerHTML = "<span style='color:#EF0000'>连接不到服务器，请检查网络！</span>";
+					}
+				});
+			}
+		</script>
+	</body>
+
+</html>

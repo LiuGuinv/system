@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>后台登录</title>
+<meta name="author" content="DeathGhost" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="shortcut icon" href="images/icon/favicon.ico"/>
+<style>
+body{height:100%;background:#16a085;overflow:hidden;}
+canvas{z-index:-1;position:absolute;}
+</style>
+
+</head>
+<body>
+<dl class="admin_login">
+ <dt>
+  <strong>Huawei手机专卖店后台管理系统</strong>
+  <em>Management System</em>
+ </dt>
+ <dd class="user_icon">
+  <input type="text" placeholder="邮箱" class="login_txtbx" id="us_email" value="997207868@qq.com"/>
+ </dd>
+ <dd class="pwd_icon">
+  <input type="password" placeholder="密码" class="login_txtbx" id="us_pass" value="123456"/>
+ </dd>
+ <dd class="val_icon">
+  <div class="checkcode">
+    <input type="text" id="J_codetext" placeholder="邮箱验证码" class="login_txtbx email_code" style="width: 100%;">
+    <canvas class="J_codeimg" id="myCanvas"></canvas>
+  </div>
+  <!--<input type="button" value="验证码核验" class="ver_btn" onClick="validate();">-->
+  <input type="button" value="点击获取验证码" class="ver_btn" onclick="getCode(this)">
+ </dd>
+ <dd>
+  <input type="button" value="立即登录" class="submit_btn" onclick="Login()"/>
+ </dd>
+ <dd>
+  <p>© 2018-2019 HuangGuijin 版权所有</p>
+  <p>粤A2-20080224-1</p>
+ </dd>
+</dl>
+</body>
+</html>
+<script src="js/jquery.js"></script>
+<!--<script src="js/verificationNumbers.js"></script>-->
+<script src="js/Particleground.js"></script>
+<script src="js/commonjs.js"></script>
+<script>
+$(document).ready(function() {
+  //粒子背景特效
+  $('body').particleground({
+    dotColor: '#5cbdaa',
+    lineColor: '#5cbdaa'
+  });
+
+});
+
+
+//点击获取验证码，判断邮箱输入格式
+function getCode(obj){
+	var url='/api/user/getcode';
+	//判断
+	var email=$('#us_email').val();
+	var reg = new RegExp("^[a-z0-9A-Z]+[- | a-z0-9A-Z . _]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$"); 
+	if (email&&reg.test(email)!=-1) {//邮箱不为空且邮箱格式正确
+		$.post(rootpath+url,{email:email},function(res){
+			//console.log(res)
+			alert(res.msg);
+			
+			//设置倒计时60秒发送邮箱
+			var countdown=60;
+			timer = setInterval(function(){ 
+				countdown--;
+				if (countdown<=0) {
+					clearInterval(timer);
+					obj.removeAttribute('disabled');
+					obj.value='点击获取验证码';
+					countdown=60;
+					return;
+				} else{
+					obj.setAttribute('disabled','disabled');
+					obj.value="重新发送("+countdown+")s";
+				}
+			},1000);
+		})
+	}
+	else{
+		alert('邮箱不能为空或邮箱格式不正确！')
+	}
+	
+}
+
+
+//点击登录时，并校验信息进行登录
+function Login(){
+
+	var data={
+		usname:$('#us_email').val(),
+		uspass:$('#us_pass').val(),
+		code:$('.email_code').val(),
+	}
+	var url='/api/user/login';
+	$.post(rootpath+url,data,function(res){
+		//console.log(res);
+		if (res.err==0) {
+			alert(res.msg);
+			window.location.href="./index.html";
+			
+			//存下用户id
+			var storage=window.localStorage;
+			storage.setItem('user_id',res.data[0]._id);//在Application下的Local Storage查看是否存储成功
+			//console.log(res.data)
+			
+		}else{
+			alert(res.msg);
+		}
+
+	})
+}
+
+</script>
